@@ -1,0 +1,24 @@
+# Node
+node_modules/
+.env
+.DS_Store
+
+# OS metadata
+Thumbs.db
+desktop.ini
+
+# IDE settings
+.vscode/
+.idea/
+
+# OneDrive sync stuff
+*.tmp
+*.lnk
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Others
+*.log

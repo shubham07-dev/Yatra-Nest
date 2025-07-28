@@ -1,0 +1,28 @@
+<% layout("/layouts/boilerplate") -%>
+<!-- <style>
+    .row{
+        height: 100%;
+        flex: 1;
+    }
+</style> -->
+    <div class="row mb-3">
+        <h1 class="col-6 offset-3">Login</h1>
+        <div class="col-6 offset-3 mt-3">
+            <form action="/login" method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control"
+                        required>
+                    <div class="invalid-feedback">Please Enter Your UserName</div>
+
+                </div>
+                <div class="mb-5">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password" class="form-control"
+                        required>
+                    <div class="invalid-feedback">Please Enter password !! </div>
+                </div>
+                <button class="btn btn-success mb-3">Login</button>
+            </form>
+        </div>
+    </div>

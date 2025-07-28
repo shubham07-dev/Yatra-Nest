@@ -1,0 +1,263 @@
+<% layout("/layouts/boilerplate") -%>
+
+
+  <!-- <h1>All listings</h1> -->
+
+
+  <!-- <form method="GET" action="/listing/new">
+        <button>Create-NewList</button>
+    </form> -->
+
+
+  <style>
+    a{
+      text-decoration: none;
+    }
+    #categories {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: auto;
+      align-self: center;
+      border: 2px solid rgb(255, 255, 255);
+      background-color: rgb(249, 249, 249);
+      align-items: center;
+      border-radius: 1.5rem;
+      padding: 0.2rem 1.5rem;
+      box-shadow: 0px 0px 50px rgb(247, 172, 172);
+
+    }
+
+    .category {
+      opacity: 0.8;
+      margin-right: 2rem;
+      text-align: center;
+    }
+
+    .category p {
+      margin-bottom: 0;
+    }
+
+    .category:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      transition: 0.2s ease-in;
+    }
+    #categories {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        scrollbar-width: none;
+        /* width: 30rem; */
+        width: 80%;
+
+      }
+      .category p{
+        color: black;
+      }
+#travex-heading h1{
+  width:max-content;
+  margin-right: 0.3rem;
+}
+    @media (max-width: 768px) {
+      #travex-heading {
+        display: none;
+      }
+      #categories{
+        width: 100%;
+      }
+
+      
+
+      .category {
+        width: 100%;
+      }
+
+      .category i {
+        font-size: 1rem;
+
+      }
+    }
+
+    .tax-toggle {
+      padding: 0.5rem;
+      border-radius: 0.8rem;
+      /* background-color: rgb(240, 240, 240); */
+      margin-bottom: 1rem;
+    }
+
+    .tax-info {
+      display: none;
+    }
+  </style>
+
+  <body>
+    <div>
+    <div class="d-flex mb-3  ">
+
+
+      <div id="travex-heading">
+        <h1>Yatra-Nest</h1>
+        <p>A platform for Travellers!!</p>
+      </div>
+
+
+      <div id="categories">
+        <div class="category">
+          <div><a href="/listing?category=Trending"><i class="fa-solid fa-fire" style="color: red;"></i>
+
+          </div>
+          <p>Trending</p>
+          </a>
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Rooms"><i class="fa-solid fa-bed" style="color: rgb(143, 53, 203);"></i>
+
+          </div>
+          <p>Rooms</p>
+          </a>
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Iconic Cities"><i class="fa-solid fa-mountain-city" style="color:black"></i>
+
+          </div>
+          <p>Iconic Cities</p>
+          </a>
+
+        </div>
+        <div class="category">
+          <div> <a href="/listing?category=Mountains"><i class="fa-solid fa-mountain" style="color:brown"></i>
+
+          </div>
+          <p>Mountains</p>
+          </a>
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Castles"><i class="fa-brands fa-fort-awesome" style="color: greenyellow"></i>
+
+          </div>
+          <p>Castles</p>
+          </a>
+        </div>
+        <div class="category">
+          <div> <a href="/listing?category=Pools"><i class="fa-solid fa-person-swimming" style="color: rgb(83, 117, 173);"></i>
+
+          </div>
+          <p>Pools</p>
+          </a>
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Camping"><i class="fa-solid fa-campground" style="color: orange"></i>
+
+          </div>
+          <p>Camping</p>
+          </a>
+
+        </div>
+        <div class="category">
+
+          <div> <a href="/listing?category=Farms"><i class="fa-solid fa-cow" style="color:black"></i>
+
+          </div>
+          <p>Farms</p>
+          </a>
+
+        </div>
+        <div class="category">
+
+          <div> <a href="/listing?category=Arctic"><i class="fa-regular fa-snowflake" style="color: blue;"></i>
+
+          </div>
+          <p>Arctic</p>
+          </a>
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Lakes"><i class="fa-solid fa-water" style="color:aqua"></i>
+
+          </div>
+          <p>Lakes</p>
+          </a>
+
+        </div>
+        <div class="category">
+          <div><a href="/listing?category=Treehouse"><i class="fa-solid fa-tree-city" style="color:green"></i>
+
+          </div>
+          <p>Treehouse</p>
+          </a>
+        </div>
+        
+
+      </div>
+
+    </div>
+    <div class="tax-toggle">
+          <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault"
+              style="border: 1px solid gray;">
+            <label class="form-check-label" for="switchCheckDefault">Display With Taxes</label>
+          </div>
+        </div>
+    
+
+    <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 ">
+
+      <%for(let listing of allListings){%>
+        <a href="/listing/<%= listing._id%>" class="listing-link">
+          <div class="card col listing-card">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing-image" style="height: 20rem;">
+            <div class="card-img-overlay">icon</div>
+            <div class="card-body">
+              <p class="card-text">
+                <b>
+                  <%= listing.title%>
+                </b><br>
+                &#8377;<%= listing.price.toLocaleString("en-in")%> / Night
+                  &nbsp; <i class="tax-info">+18% GST</i>
+
+              </p>
+            </div>
+          </div>
+        </a>
+        <%}%>
+
+    </div>
+
+    <script>
+      function toggleFilters() {
+        const wrapper = document.getElementById("extra-filters");
+        const toggleBtn = document.getElementById("toggle-filter");
+        const icon = toggleBtn.querySelector("i");
+        const label = toggleBtn.querySelector("p");
+
+        wrapper.classList.toggle("expanded");
+
+        if (wrapper.classList.contains("expanded")) {
+          icon.classList.remove("fa-chevron-right");
+          icon.classList.add("fa-chevron-left");
+          label.textContent = "Less";
+        } else {
+          icon.classList.remove("fa-chevron-left");
+          icon.classList.add("fa-chevron-right");
+          label.textContent = "More";
+        }
+      }
+
+
+
+
+      // for toggle
+      let taxSwitch = document.getElementById("switchCheckDefault");
+      taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (info of taxInfo) {
+          if (info.style.display != "inline") {
+            info.style.display = "inline";
+          }
+          else {
+            info.style.display = "none";
+          }
+        }
+      });
+
+
+    </script>

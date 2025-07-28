@@ -1,0 +1,116 @@
+<% layout("/layouts/boilerplate") -%>
+    <div class="row mt-3" style="margin-bottom: 2rem;">
+        <div class="col-8 offset-3">
+
+
+            <h3>
+                <%= listingData.title %>
+            </h3>
+        </div>
+        <div class="card col-6 offset-3 listing-card">
+            <img src="<%= listingData.image.url %>" class="card-img-top show-img" alt="listing_image">
+            <div class="card-body">
+                <p class="card-text mt-3"><i> <b>Owned By - <%= listingData.owner.username %></b></i></p>
+                <p class="card-text">
+                    <%= listingData.description %>
+                </p>
+                <p class="card-text"> &#8377;<%= listingData.price.toLocaleString("en-IN") %>
+                </p>
+                <p class="card-text">
+                    <%= listingData.location %>
+                </p>
+                <p class="card-text">
+                    <%= listingData.country %>
+                </p>
+            </div>
+        </div>
+        <!-- this authorisation for user taki koi dusra user uski listing ko delete na kar paye !! -->
+        <% if(currUser && listingData.owner._id.equals(currUser._id)) { %>
+            <div class="btns">
+                <a href="/listing/<%=listingData._id%>/edit" class="btn btn-dark col-1 offset-3 add-btn">Edit</a>
+                <form method="post" action="/listing/<%= listingData._id %>?_method=DELETE">
+                    <button class="btn btn-dark offset-5">Delete</button>
+                </form>
+            </div>
+            <% } %>
+                <div class="col-8 offset-3">
+                    <hr>
+                    <% if(currUser) {%>
+                        <h4>Leave a Review</h4>
+                        <form method="post" action="/listing/<%= listingData._id  %>/reviews" novalidate
+                            class="needs-validation">
+                            <!-- <div class="mb-3 mt-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <input type="range" min="1" max="5" id="rating" name="review[rating]"
+                                    class="form-range">
+                            </div> -->
+                              <div class="mb-3 mt-3">
+                                <label for="rating" class="form-label">Rating</label>
+                            <fieldset class="starability-slot">
+                                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                                    aria-label="No rating." />
+                                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                <label for="first-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                <label for="first-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                <label for="first-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                <label for="first-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                <label for="first-rate5" title="Amazing">5 stars</label>
+                            </fieldset>
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <label for="comment" class="form-label"><b>Pls Comment your Review :</b></label>
+                                <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control"
+                                    required></textarea>
+                                <div class="invalid-feedback">Please Add Some Comments For Review !!</div>
+                            </div>
+                            <button class="btn btn-outline-dark">Submit</button>
+                        </form>
+                        <hr>
+                        <% } %>
+<% if(listingData.reviews!="") {%>
+<p><b>All Reviews</b></p>
+    <%}  %>
+                            <div class="row">
+                                <% for(review of listingData.reviews){%>
+                                    <div class="card col-5 ms-3 mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><b>@<%= review.author.username %></b></h5>
+                                             <p class="starability-result card-text " data-rating="<%= review.rating %>">
+                                            </p>
+                                            <p class="card-text">
+                                                <%= review.comment %>
+                                            </p>
+                                           <% if(currUser &&  currUser._id.equals(currUser._id)) { %>
+                                            <form class="mb-3" method="post"
+                                                action="/listing/<%= listingData._id  %>/reviews/<%= review._id %>?_method=DELETE">
+                                                <button class="btn btn-sm btn-dark">Delete</button>
+                                            </form>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <%}%>
+                            </div>
+                            <h4 class="offset-0">📍 Location on Map</h4>
+                </div>
+
+<div id="map" class="col-8 offset-3" style="height: 400px; width: 55%; margin-bottom: 3rem;"></div>
+
+    </div>
+<script>
+  const lat = <%- JSON.stringify(listingData.coordinates && listingData.coordinates.lat ? listingData.coordinates.lat : 0) %>;
+  const lng = <%- JSON.stringify(listingData.coordinates && listingData.coordinates.lng ? listingData.coordinates.lng : 0) %>;
+
+  const map = L.map('map').setView([lat, lng], 10);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  L.marker([lat, lng]).addTo(map)
+    .bindPopup('<b><%= listingData.title %></b><br><%= listingData.location %>')
+    .openPopup();
+</script>
