@@ -33,6 +33,10 @@
                 </form>
             </div>
             <% } %>
+            <%if(!currUser){%>
+                    <a href="/listing/<%=listingData._id%>/logged/reviews" class="btn btn-outline-dark col-4 offset-4 mb-3">Leave a
+                        review</a>
+                    <%}%>
                 <div class="col-8 offset-3">
                     <hr>
                     <% if(currUser) {%>
