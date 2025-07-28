@@ -10,7 +10,7 @@
         <div class="card col-6 offset-3 listing-card">
             <img src="<%= listingData.image.url %>" class="card-img-top show-img" alt="listing_image">
             <div class="card-body">
-                <p class="card-text mt-3"><i> <b>Owned By - <%= listingData.owner.username %></b></i></p>
+                <p class="card-text mt-3" style="width: max-content;"><i> <b>Owned By - <%= listingData.owner.username %></b></i></p>
                 <p class="card-text">
                     <%= listingData.description %>
                 </p>
@@ -27,7 +27,7 @@
         <!-- this authorisation for user taki koi dusra user uski listing ko delete na kar paye !! -->
         <% if(currUser && listingData.owner._id.equals(currUser._id)) { %>
             <div class="btns">
-                <a href="/listing/<%=listingData._id%>/edit" class="btn btn-dark col-1 offset-3 add-btn">Edit</a>
+                <a href="/listing/<%=listingData._id%>/edit" class="btn btn-dark col-1 offset-3 add-btn" style="width: auto;">Edit</a>
                 <form method="post" action="/listing/<%= listingData._id %>?_method=DELETE">
                     <button class="btn btn-dark offset-5">Delete</button>
                 </form>
