@@ -131,6 +131,10 @@ app.use("/",userRouter);
 
 
 
+// Redirect root to listing page
+app.get("/", (req, res) => {
+    res.redirect("/listing");
+});
 
 
 
