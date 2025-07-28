@@ -76,7 +76,7 @@
     <%}  %>
                             <div class="row">
                                 <% for(review of listingData.reviews){%>
-                                    <div class="card col-5 ms-3 mb-3">
+                                    <div class="card col-5 ms-3 mb-3" style="width: auto;">
                                         <div class="card-body">
                                             <h5 class="card-title"><b>@<%= review.author.username %></b></h5>
                                              <p class="starability-result card-text " data-rating="<%= review.rating %>">
@@ -94,6 +94,7 @@
                                     </div>
                                     <%}%>
                             </div>
+                        
                             <h4 class="offset-0">📍 Location on Map</h4>
                 </div>
 
