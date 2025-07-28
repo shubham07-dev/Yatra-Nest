@@ -168,6 +168,9 @@ app.use((err,req,res,next)=>{
 
 
 const PORT = process.env.PORT || 8080;
+
+console.log("ENV PORT:", process.env.PORT); // for debugging
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
