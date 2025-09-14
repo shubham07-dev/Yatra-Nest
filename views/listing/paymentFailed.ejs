@@ -1,0 +1,8 @@
+<%- layout("./layouts/boilerplate.ejs")%>
+
+<h2 class="text-red-600">❌ Payment Failed</h2>
+<p>Reason: <%= reason %></p>
+
+<a href="/listing/<%= listing._id %>/book" class="btn btn-primary">
+   🔁 Try Again
+</a>

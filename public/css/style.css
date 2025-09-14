@@ -39,45 +39,33 @@ body {
 
 /* footer */
 
-.f-info-links a{
-    text-decoration: none;
+.f-info{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    background-color:  rgb(51, 51, 51);;
+    padding: 0.4rem;
     color: white;
 }
 
-.f-info-links a:hover{
+.nav-link{
+    color: rgb(0, 0, 0) !important;
+}
+
+.foot-link{
+    display: flex;
+    list-style: none;
+}
+
+.f-nav-link{
+    color: white !important;
+    margin-right: 0.8rem;
     text-decoration: underline;
 }
 
-.f-info-links, .f-info-socials, .f-info-brand{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .f-info-socials{
-    margin-left: 1.5rem;
-}
-
-
-.f-info-socials i{
-    font-size: 1.3rem;
-    margin-right: 1.2rem;
-    color: white;
-}
-
-
-.f-info{
-    text-align: center;
-    height: 6rem;
-    /* background-color: #ebebeb; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items:space-evenly;
-    background-color: rgb(51, 51, 51);;
-    color: white;
-    padding: 0.4rem;
+    font-size: 1.5rem;
 }
 
 

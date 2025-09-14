@@ -5,16 +5,17 @@ category: Joi.string().valid("Trending", "Rooms","Iconic Cities","Mountains","Ca
 
 
 
-module.exports.listingSchema=Joi.object({
-listing:Joi.object({
-    title:Joi.string().required(),
-    description:Joi.string().required(),
-    location:Joi.string().required(),
-    country:Joi.string().required(),
-    price:Joi.number().required().min(0),
-    image:Joi.string().allow("",null)
-
-}).required()
+module.exports.listingSchema = Joi.object({
+    listing: Joi.object({
+        title: Joi.string().required(),
+        description: Joi.string().required(),
+        image: Joi.string(), 
+        category: Joi.string().required(),
+        price: Joi.number().required().min(0),
+        country: Joi.string().required(),
+        location: Joi.string().required(),
+        ownerUpiId: Joi.string().required()   // 👈 added here
+    }).required()
 });
 
 

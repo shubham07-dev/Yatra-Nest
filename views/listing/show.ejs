@@ -34,12 +34,17 @@
             </div>
             <% } %>
             <%if(!currUser){%>
+                <a href="/listing/<%= listingData._id %>/book"><button class="btn btn-outline-success col-4 offset-4 mt-4">Book Now</button></a>
+                        <hr class="col-8 offset-3 mt-3">
                     <a href="/listing/<%=listingData._id%>/logged/reviews" class="btn btn-outline-dark col-4 offset-4 mb-3">Leave a
                         review</a>
                     <%}%>
                 <div class="col-8 offset-3">
                     <hr>
                     <% if(currUser) {%>
+
+                        <a href="/listing/<%= listingData._id %>/book"><button class="btn btn-outline-success col-4 offset-4 mt-4">Book Now</button></a>
+                        <hr class="col-8 offset-2 mt-3">
                         <h4>Leave a Review</h4>
                         <form method="post" action="/listing/<%= listingData._id  %>/reviews" novalidate
                             class="needs-validation">

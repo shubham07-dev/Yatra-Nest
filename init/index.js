@@ -46,9 +46,11 @@ const initdb = async () => {
         : null,
       owner: "688644b497897bc3942b4721",
       category: assignCategoryByIndex(index),
+      ownerUpiId: "7880377988@naviaxis",
+      ownerEmail: "shuklakumar704@gmail.com", bookedDates: [],
     };
   });
-
+ 
   await listing.insertMany(processedData);
   console.log("Data was initialized");
 };

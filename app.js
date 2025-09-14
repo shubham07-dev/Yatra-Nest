@@ -19,6 +19,7 @@ const flash=require("connect-flash");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const User=require("./Models/user.js");
+const bookingRoute=require("./routes/bookings.js");
 
 
 
@@ -123,6 +124,9 @@ app.get("/demouser",async(req,res)=>{
 app.use("/listing",ListingRouter);
 // using express routing for reviews
 app.use("/listing/:id/reviews",reviewsRouter);
+
+//booking route
+app.use("/listing",bookingRoute)
 
 // using express routing for user
 app.use("/",userRouter);
