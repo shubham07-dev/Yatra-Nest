@@ -64,7 +64,7 @@ Otherwise, your booking will expire.
         
         if (timeLeft <= 0) {
             alert("⏰ Booking session expired. Please start again.");
-            window.location.href = "/listings/<%= listing._id %>/book";
+            window.location.href = "/listing/<%= listing._id %>/book";
         } else {
             timeLeft--;
             setTimeout(updateTimer, 1000);
