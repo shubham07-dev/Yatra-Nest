@@ -50,26 +50,42 @@ function numberLikePatterns(n) {
 
 // try to find a date in the OCR text and parse it
 function extractPaymentDate(text) {
-    const candidates = [];
-    const patterns = [
-        /\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})\b/g,           // 16/08/2025 or 16-08-2025
-        /\b(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})\b/g,           // 2025/08/16
-        /\b(\d{1,2}\s+[A-Za-z]{3,}\s+\d{4})\b/g,            // 16 Aug 2025
-        /\b([A-Za-z]{3,}\s+\d{1,2},\s*\d{4})\b/g,           // Aug 16, 2025
-    ];
+  const patterns = [
+    /\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})\b/g,
+    /\b(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})\b/g,
+    /\b(\d{1,2}\s*[A-Za-z]{3,}\s*\d{4})/g,
+    /\b([A-Za-z]{3,}\s+\d{1,2},\s*\d{4})\b/g,
+  ];
 
-    for (const re of patterns) {
-        let m;
-        while ((m = re.exec(text)) !== null) candidates.push(m[1]);
+  for (const re of patterns) {
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const dateOnly = m[1]; // first group without time
+      const parsed = moment.tz(dateOnly, [
+        "DD/MM/YYYY",
+        "D/M/YYYY",
+        "DD-MM-YYYY",
+        "YYYY/MM/DD",
+        "YYYY-MM-DD",
+        "DD MMM YYYY",
+        "DDMMMYYYY",
+      ], "Asia/Kolkata");
+      if (parsed.isValid()) return parsed;
     }
-
-    const formats = ["DD/MM/YYYY", "D/M/YYYY", "DD-MM-YYYY", "YYYY/MM/DD", "YYYY-MM-DD", "DD MMM YYYY", "MMM DD, YYYY"];
-    for (const c of candidates) {
-        const parsed = moment.tz(c, formats, true, "Asia/Kolkata");
-        if (parsed.isValid()) return parsed;
-    }
-    return null;
+  }
+  return null;
 }
+
+function withinAllowedWindow(paymentMoment) {
+  const today = moment().tz("Asia/Kolkata").startOf("day");
+  const yesterday = moment().tz("Asia/Kolkata").subtract(1, "day").startOf("day");
+  return (
+    paymentMoment.isSame(today, "day") ||
+    paymentMoment.isSame(yesterday, "day")
+  );
+}
+
+
 
 function withinAllowedWindow(paymentMoment) {
     // allow payment on "today" or "yesterday" (because OCR timezones / delays)
@@ -161,6 +177,7 @@ router.post("/:id/book", async (req, res) => {
         startDate,
         endDate,
         email,
+        amount,
         phone,
         price: priceBreakdown,
         createdAt: Date.now(),                // ✅ full object
@@ -221,6 +238,10 @@ router.post("/:id/confirm", upload.single("paymentProof"), async (req, res) => {
         // ---------- Verify Date ----------
         const foundDate = extractPaymentDate(ocrRaw);
         const dateOk = foundDate ? withinAllowedWindow(foundDate) : false;
+    //     console.log("OCR Result:", ocrRaw);
+    // console.log("Normalized OCR:", ocr);
+    // console.log("Expected UPI:", expectedUpi);
+    // console.log("UPI Match:", upiOk, "Amount Match:", amtOk, "Date Match:", dateOk);
 
         // ---------- If any check fails → redirect to failed page ----------
         // ---------- If any check fails → redirect to failed page ----------
@@ -252,6 +273,7 @@ Reason: ${reasons.join(", ")}`,
         // ---------- All checks passed → Confirm booking ----------
         listing.bookedDates = [...(listing.bookedDates || []), ...booking.newDates];
         await listing.save();
+        console.log(booking.price.totalCost);
 
         const confirmedBooking = new Booking({
             listing: listing._id,
